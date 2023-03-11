@@ -61,14 +61,17 @@ with st.form('Lease Information'):
             st.header("You are within your allocated mileage!")
         else:
             st.header("Crap, you're over your miles!")
-        col1, col2 = st.columns(2)
+        col1, col2, col3 = st.columns(3)
         result_length = len(results)
         pos = 1
         for key, value in results.items():
-            if pos % 2 == 1:
+            if pos % 3 == 1:
                 with col1:
                     st.metric(key, value)
-            else:
+            elif pos % 3 == 2:
                 with col2:
+                    st.metric(key, value)
+            else:
+                with col3:
                     st.metric(key, value)
             pos += 1
