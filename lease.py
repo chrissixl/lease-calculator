@@ -49,7 +49,7 @@ with st.form('Lease Information'):
     with f_col1:
         mileage = st.number_input('Current Mileage', value=0, min_value=0)
         annual_mileage = st.selectbox('Annual Allowed Mileage', (10000, 12000, 15000))
-        term = st.selectbox('Term (months)', (24, 36, 48)) 
+        term = st.selectbox('Term (months)', (24, 36, 48), index=1) 
     with f_col2:
         overage_cost = st.number_input('Overage Cost per Mile', value=0.25, min_value=0.0)
         start_str = st.date_input('Lease Start Date', value=start)
@@ -60,7 +60,7 @@ with st.form('Lease Information'):
         if float(results['Expected Current Mileage']) > mileage:
             st.header("You are within your allocated mileage!")
         else:
-            st.header("Crap, you're over your miles!")
+            st.header(f"You are projected to be {results['Projected Overage (Miles)']} over your miles!")
         col1, col2, col3 = st.columns(3)
         result_length = len(results)
         pos = 1
