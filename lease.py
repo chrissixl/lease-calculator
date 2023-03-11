@@ -45,11 +45,14 @@ def calc_lease(mileage, annual_mileage=10000, term=3, overage_cost=0.25, start=s
 st.header("Lease Calculator")
 
 with st.form('Lease Information'):
-    mileage = st.number_input('Current Mileage', value=0, min_value=0)
-    annual_mileage = st.selectbox('Annual Allowed Mileage', (10000, 12000, 15000))
-    term = st.selectbox('Term (months)', (24, 36, 48)) 
-    overage_cost = st.number_input('Overage Cost per Mile', value=0.25, min_value=0.0)
-    start_str = st.date_input('Lease Start Date', value=start)
+    f_col1, f_col2 = st.columns(2)
+    with f_col1:
+        mileage = st.number_input('Current Mileage', value=0, min_value=0)
+        annual_mileage = st.selectbox('Annual Allowed Mileage', (10000, 12000, 15000))
+        term = st.selectbox('Term (months)', (24, 36, 48)) 
+    with f_col2:
+        overage_cost = st.number_input('Overage Cost per Mile', value=0.25, min_value=0.0)
+        start_str = st.date_input('Lease Start Date', value=start)
 
     submitted = st.form_submit_button("Submit")
     if submitted:
@@ -58,7 +61,14 @@ with st.form('Lease Information'):
             st.header("You are within your allocated mileage!")
         else:
             st.header("Crap, you're over your miles!")
+        col1, col2 = st.columns(2)
+        result_length = len(results)
+        pos = 1
         for key, value in results.items():
-            st.text(key)
-            st.text(value)
-
+            if pos % 2 == 1:
+                with col1:
+                    st.metric(key, value)
+            else:
+                with col2:
+                    st.metric(key, value)
+            pos += 1
